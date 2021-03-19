@@ -37,5 +37,5 @@ class InputsModel:
         list of numpy images to batches for the model"""
     
         list_inputs = [self.img2input(img) for img in list_img] # Cada imagen es (1, target_size, target_size, channel)
-    
+        #print([x.shape for x in list_inputs])
         return np.concatenate(list_inputs, axis=0)

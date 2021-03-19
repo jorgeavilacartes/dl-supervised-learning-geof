@@ -120,4 +120,4 @@ class DecoderOutput:
         self.decode_output_by   = postprocessing.get("decode_output_by")
         self.umbral = postprocessing.get("umbral")
         self.config = postprocessing
-        print(f"Postprocessing loaded from {path_postprocessing!r}")
+        print(f"Postprocessing loaded from {str(path_postprocessing)!r}")

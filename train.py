@@ -67,7 +67,7 @@ encode_labels = fromJSON("data/encode_labels.json")
 # finally, the batch creator must to apply any transposition if needed to fit the model
 
 # Info about Image
-img_format =  "gray"
+img_format =  "rgb"
 
 # Model to use
 model_name = 'NAIVE'

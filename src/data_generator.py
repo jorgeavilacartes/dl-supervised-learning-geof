@@ -83,7 +83,7 @@ class DataGenerator(tf.keras.utils.Sequence):
         
         # Create batch for the selected model
         X = self.batch_creator(list_inputs)
-        print("BATCH", X[0].shape)
+        # print("BATCH", X[0].shape)
         # outputs for the model as batch -> [[0,1,0,...], [0,0,1,...],[1,0,0,...]]
         y = np.array([self.encoder_output(self.labels.get(path)) for path in list_paths_temp])
         

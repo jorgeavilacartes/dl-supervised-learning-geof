@@ -57,6 +57,5 @@ def rescale(img: str, *, target_size: int):
         # Get mask 
         mask[x_start:x_end,y_start:y_end] = img_rescaled
         mask = np.expand_dims(mask, axis=-1)
-        print(mask.shape)
 
     return mask

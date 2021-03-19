@@ -23,10 +23,8 @@ MODEL_NAME = str(Path(__file__).resolve().stem)
 # Default inputs
 # Dictionary with {"Reference-name-of-input": {"len_input": <int>, "leads": <list with name of leads>}}
 INPUTS = OrderedDict(
-            input_IILong=dict(
-                len_input=3000,
-                leads=["II"]
-            )
+                target_size=250,
+                channels=3
         )
 
 class ModelECG:
@@ -48,13 +46,17 @@ class ModelECG:
             output_layer (str): activation function of last layer
             shape_inputs (list of tuples): Eg: For two inputs [(4800,1),(1000,4)]
         """    
-        shape_inputs = [(value.get("len_input"), len(value.get("leads"))) for value in self.inputs.values()]
-        
+    
         # Inputs     
-        input_model = Input(shape=shape_inputs[0])
-        
+        input_model = (
+                    INPUTS.get("target_size"), 
+                    INPUTS.get("target_size"), 
+                    INPUTS.get("channels")
+                    )
+                    
+
         model = Sequential()
-        model.add(Conv2D(32, (3, 3), activation='relu', input_shape=(32, 32, 3)))
+        model.add(Conv2D(32, (3, 3), activation='relu', input_shape=input_model))
         model.add(MaxPooling2D((2, 2)))
         model.add(Conv2D(64, (3, 3), activation='relu'))
         model.add(MaxPooling2D((2, 2)))

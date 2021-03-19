@@ -20,7 +20,7 @@ from .preprocessing import (
     register_in_pipeline,
 )
 
-from .models.inputs_model import InputsModelECG as InputsModel # TODO:Cambiar aca el loader de array -> input modelo
+from .models.inputs_model import InputsModel # TODO:Cambiar aca el loader de array -> input modelo
 from .utils import fromJSON
 
 from math import floor
@@ -65,8 +65,6 @@ class BaseModelLoader(metaclass=ABCMeta):
         #Input to initialize inputs model
         inputs_model = dict(
             model_name=self.training_config.get("model_name"), 
-            order_leads=self.training_config.get("order_leads"), 
-            order_batch=self.training_config.get("order_batch"),
             inputs_model_fromJSON=inputs_model_path
         )
         self.InputsModel = InputsModel(**inputs_model)
@@ -86,14 +84,14 @@ class BaseModelLoader(metaclass=ABCMeta):
     def generate_input_model(self, input):
         """From file->array->preprocessing->input for the model"""
         # Load file as array
-        input = self.file_loader(input)#, only_signal=True, class_ecg=True) #FIXME class_ecg=True para probar NAb 
+        input = self.file_loader(input)
         
         # Preprocessing
         input = self.preprocessing(input) 
 
         # Transform as input for the model in inheritance
         if not self.preprocessing_to_model:
-            input = self.InputsModel.ecg2input(input) # TODO: Esto depende del modelo ECG, RX, etc
+            input = self.InputsModel.img2input(input) 
 
         return input
 
