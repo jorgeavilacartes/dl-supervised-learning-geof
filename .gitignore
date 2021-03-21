@@ -2,7 +2,7 @@
 *.json
 logs/
 images/
-images-generated/
+images-from-video/
 data/
 train_results/
 test_results/
