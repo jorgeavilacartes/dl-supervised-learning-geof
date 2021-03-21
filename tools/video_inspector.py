@@ -18,7 +18,7 @@ class VideoInspector:
         "Open video and return number of total frames"
         self.capture = cv2.VideoCapture(self.path_video)
         
-        n_frames = int(self.capturgeneratede.get(cv2.CAP_PROP_FRAME_COUNT))
+        n_frames = int(self.capture.get(cv2.CAP_PROP_FRAME_COUNT))
         return n_frames
     
     def close_video(self,):
