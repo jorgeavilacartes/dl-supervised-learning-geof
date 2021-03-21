@@ -1,3 +1,7 @@
+"""
+Get datetime from images
+"""
+
 from tqdm import tqdm
 from pathlib import Path
 from tools import DatetimeOCR
