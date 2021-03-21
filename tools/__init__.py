@@ -1,0 +1,1 @@
+from .video_inspector import VideoInspector

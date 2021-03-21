@@ -2,9 +2,12 @@
 *.json
 logs/
 images/
+images-generated/
 data/
 train_results/
 test_results/
+*.zip
+*.rar
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -52,7 +52,7 @@ path_save_train_results.mkdir(parents=True, exist_ok=True)
 # Create logger
 logger = set_logger(path_log = "train_results/logs_training.log")
 
-name_experiment = f"" # -> folder inside '/logs'
+name_experiment = f"Name-Experiment" # -> folder inside '/logs'
 order_output_model = ["Perro", "Gato"] # None -> alphabetic order of classes from values of "data/encode_labels.json"
 
 # Load Data
@@ -60,11 +60,6 @@ paths_train = fromJSON("data/list_train.json")
 paths_val   = fromJSON("data/list_val.json")
 labels = fromJSON("data/labels.json")
 encode_labels = fromJSON("data/encode_labels.json")
-
-# ! Numpy INFO !
-# ecg will be loaded as numpy arrays with shape (12,5000) / (leads, signal)
-# preprocessing and augmentation are applied to this shape configuration
-# finally, the batch creator must to apply any transposition if needed to fit the model
 
 # Info about Image
 img_format =  "rgb"
@@ -75,7 +70,7 @@ weights_path=None # None means that random weights will be used to initialize th
 output_layer = 'softmax' # activation function of last layer, 'sigmod' or 'softmax'
 n_output = None # neurons in last layer. None -> default to len(class_names)
 
-# Batches configuration: (batch_size, signal, lead)  
+# Batches configuration: (batch_size, height, width, channels)  
 batch_size = 4
 epochs = 3
 
@@ -106,25 +101,21 @@ bool_weighted_loss = True # True: use weighted loss using training set
 metrics=["accuracy"]
 name_reference_metrics = ["accuracy"]
 
-# preprocessing inputs
-target_size = 250
-
 # All components of DataGenerator are:
-# load ecg, preprocessing, augmentation, batch creation, encoder output 
+# load file, preprocessing, augmentation, batch creation, encoder output 
 inputs_file_loader = dict(
     format=img_format
 )
 file_loader = FileLoader(**inputs_file_loader)
 
-
 # Generator of inputs for the model
-inputs_model_ecg = dict(
-    model_name=model_name,
-)
-inputs_model = InputsModel(**inputs_model_ecg)
+inputs_model = InputsModel(model_name=model_name)
 batch_creator = inputs_model.create_batch
 
 # Define preprocessing
+# preprocessing inputs
+target_size = 250
+
 preprocessing = Preprocessing(
     [
         ("rescale", dict(target_size=target_size)),
@@ -260,9 +251,9 @@ training_config = {
     "loss": name_reference_loss,
     "class_weights": list(class_weight) if bool_weighted_loss else None,
     "metrics": name_reference_metrics,
-    "train_N_ecg": len(paths_train),
+    "train_N": len(paths_train),
     "train_labels":  get_count_labels(paths_train, labels, encode_labels),
-    "val_N_ecg": len(paths_val),
+    "val_N": len(paths_val),
     "val_labels":  get_count_labels(paths_val, labels, encode_labels),
     "weights": [weight for weight in all_weights if weight.endswith("hdf5")][-1],
     "architecture": architecture
