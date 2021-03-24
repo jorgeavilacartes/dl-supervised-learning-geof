@@ -6,6 +6,7 @@ images-from-video/
 data/
 train_results/
 test_results/
+Tesseract.ipynb
 *.zip
 *.rar
 

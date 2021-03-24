@@ -54,7 +54,6 @@ class ModelECG:
                     INPUTS.get("channels")
                     )
                     
-
         model = Sequential()
         model.add(Conv2D(32, (3, 3), activation='relu', input_shape=input_model))
         model.add(MaxPooling2D((2, 2)))
@@ -65,5 +64,3 @@ class ModelECG:
         model.add(Dense(64, activation='relu'))
         model.add(Dense(self.n_output, activation=self.output_layer, dtype = tf.float32))
         return model
-        # return Model(input_model, output)                                                                                                                 
-        

@@ -22,6 +22,7 @@ class VideoInspector:
         return n_frames
     
     def close_video(self,):
+        "Close video and destroy windows"
         self.capture.release()
         cv2.destroyAllWindows()
 
@@ -38,18 +39,22 @@ class VideoInspector:
         # TODO: use fps
         n_frames = self.open_video()
 
+        # Initialize progress bar
         pbar = tqdm(total=n_frames)
         i=0
         while(self.capture.isOpened()):
             ret, frame = self.capture.read()
             if ret == False:
                 break
-            path_img_save = str(path_save.joinpath(basename + f"{i}.jpg".zfill(4)))
+
+            n_img = str(i).zfill(4)
+            path_img_save = str(path_save.joinpath(basename + f"_{n_img}" + ".jpg"))
             cv2.imwrite(path_img_save,frame)
             
             pbar.update(1)
             i+=1
         
+        # Close progress bar and video
         pbar.close()
         self.close_video()
         print("Images saved at {!r}".format(str(path_save.absolute())))
